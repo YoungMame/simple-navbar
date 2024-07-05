@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple responsive navbar</title>
+</head>
+<body>
+    <nav class="nav">
+        <button class="nav__burger-button"><svg xmlns="http://www.w3.org/2000/svg" height="4vh" viewBox="0 -960 960 960" width="4vh" fill="#5f6368"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></button>
+        <a class="nav__brand" href="#">Jobkedin</a>
+        <ul class="nav__navigation">
+            <li ><a class="nav-active" href="#">Home</a></li>
+            <li><a href="#">Companies</a></li>
+            <li><a href="#">Work offers</a></li>
+            <li><a href="#">Events</a></li>
+        </ul>
+        <div class="nav__auth"><p class="nav__auth__text">Login</p><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#ffffff"><path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z"/></svg></div>
+    </nav>
+    <main>
+        <div class="nav-overlay"></div>
+    </main>
+    
+</body>
+<script>
+    const burgerButtons = document.querySelectorAll(".nav__burger-button")
+    burgerButtons.forEach(burgerButton => {
+        const navContainer = burgerButton.closest(".nav")
+        const burgerList = navContainer.querySelector(".nav__navigation")
+        const burgerSvg = burgerButton.querySelector("svg")
+        const overlay = document.querySelector(".nav-overlay")
+        const toogleNavigation = (e) => {
+            burgerList.style.transform = ((burgerList.style.transform === `translateX(0%)`) ? `translateX(-1000%)` : `translateX(0%)`)
+            burgerSvg.style.transform = ((burgerSvg.style.transform === `rotate(90deg)`) ? `rotate(0deg)` : `rotate(90deg)`)
+            overlay.style.display = ((overlay.style.display === `none`) ? `block` : `none`)
+        }
+        burgerButton.addEventListener("click", (e) => {
+            toogleNavigation(e)
+        })
+        overlay.addEventListener("click", (e) => {
+            toogleNavigation(e)
+        })
+        window.addEventListener("resize", (e) => {
+            if(window.innerWidth >= 1200) {
+                burgerList.style.transform = `translateX(0%)`
+                overlay.style.display = `none`
+                burgerSvg.style.transform = `rotate(0deg)`
+            } else burgerList.style.transform = `translateX(-1000%)`
+        })
+        overlay.style.display = `none`
+    })
+</script>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        text-decoration: none;
+        color: rgb(22, 22, 22);
+        font-family: Arial, Helvetica, sans-serif;
+        border: 0px solid black;
+        box-sizing: border-box;
+    }
+    body {
+        width: 100%;
+    }
+    .nav {
+        z-index: 3;
+        width: 100%;
+        height: 10vh;
+        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .nav-overlay {
+        height: 100vh;
+        width: 100vw;
+        z-index: 2;
+        background-color: rgba(195, 195, 195, 0.077);
+        position: fixed;
+    }
+    .nav__burger-button {
+        padding: 10px;
+        cursor: pointer;
+        background-color: white;
+    }
+    .nav__burger-button svg {
+        transition: all 0.1s ease-in-out
+    }
+    .nav__brand {
+        font-size: x-large;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: rgb(33, 112, 232);
+    }
+    .nav__auth {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        align-items: center;
+        height: 40%;
+        padding: 15px;
+        background-color: rgb(33, 112, 232);
+        border-radius: 30px;
+        transition: all ease 0.2s;
+    }
+    .nav__auth:hover {
+        transform: translateY(-5%);
+        border: 1px solid white;
+    }
+    .nav__auth p {
+        color: white;
+    }
+    .nav__navigation {
+        transition: transform ease 0.3s;
+    }
+    .nav__navigation li {
+        font-size: large;
+        padding: 10px;
+    }
+    .nav-active {
+        text-decoration: underline ;
+        text-decoration-color: rgb(33, 112, 232);
+        text-decoration-thickness: 2px;
+    }
+    @media(max-width: 1199px){
+        .nav__navigation {
+            position: fixed;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 300px;
+            top: 0;
+            right: 0;
+            gap: 2vw;
+            background-color: white;
+            z-index: 4;
+            transform: translateX(-1000%);
+        }
+        .nav__navigation li{
+            padding: 20px;
+            transition: all ease 0.5s;
+            cursor: pointer;
+        }
+        .nav__navigation li:hover {
+            background-color: rgb(82, 142, 231);
+        }
+        .nav__navigation li:hover a {
+            color: white;
+        }
+        .nav__auth p {
+            display: none;
+        }
+    }
+    @media(min-width: 1200px) {
+        .nav__burger-button {
+            display: none;
+        }
+        .nav__navigation {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: auto;
+            width: auto;
+            transform: translateX(0%);
+        }
+        .nav__navigation li:hover a {
+            color: rgb(68, 68, 68);
+        }
+    }
+</style>
+</html>
